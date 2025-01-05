@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeService", "EmployeeService\EmployeeService.csproj", "{1E4931C2-DFA2-4D8C-9B07-86276475F394}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeDataAccess", "EmployeeDataAccess\EmployeeDataAccess.csproj", "{30CD21FA-3DDB-4A3F-BA33-70BBD3EC6846}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{1E4931C2-DFA2-4D8C-9B07-86276475F394}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E4931C2-DFA2-4D8C-9B07-86276475F394}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E4931C2-DFA2-4D8C-9B07-86276475F394}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30CD21FA-3DDB-4A3F-BA33-70BBD3EC6846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30CD21FA-3DDB-4A3F-BA33-70BBD3EC6846}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30CD21FA-3DDB-4A3F-BA33-70BBD3EC6846}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30CD21FA-3DDB-4A3F-BA33-70BBD3EC6846}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
