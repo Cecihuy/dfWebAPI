@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using EmployeeDataAccess;
 
@@ -50,6 +51,27 @@ namespace EmployeeService.Controllers {
             entities.Employees.Remove(entity);
             entities.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK);
+          }
+        }
+      } catch(Exception ex) {
+        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+      }
+    }
+    public HttpResponseMessage Put(int id, [FromBody]Employee employee) {
+      try {
+        using(EmployeeDbEntities entities = new EmployeeDbEntities()) {
+          var entity = entities.Employees.FirstOrDefault(e => e.Id == id);
+          if(entity == null) {
+            return Request.CreateErrorResponse(
+              HttpStatusCode.NotFound, "Employee with id = " + id.ToString() + " not found to update"
+            );
+          } else {
+            entity.Name = employee.Name;
+            entity.Email = employee.Email;
+            entity.Department = employee.Department;
+            entity.PhotoPath = employee.PhotoPath;
+            entities.SaveChanges();
+            return Request.CreateResponse(HttpStatusCode.OK, entity);
           }
         }
       } catch(Exception ex) {
