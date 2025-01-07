@@ -74,7 +74,7 @@ namespace EmployeeService.Controllers {
         return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
       }
     }
-    public HttpResponseMessage Put(int id, [FromBody]Employee employee) {
+    public HttpResponseMessage Put([FromBody]int id, [FromUri]Employee employee) {
       try {
         using(EmployeeDbEntities entities = new EmployeeDbEntities()) {
           var entity = entities.Employees.FirstOrDefault(e => e.Id == id);
