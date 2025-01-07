@@ -9,14 +9,29 @@ using EmployeeDataAccess;
 
 namespace EmployeeService.Controllers {
   public class EmployeesController : ApiController {
-    [HttpGet]
-    public IEnumerable<Employee> LoadAllEmployees() {
+    public HttpResponseMessage Get(string department="All") {
       using(EmployeeDbEntities entities = new EmployeeDbEntities()) {
-        return entities.Employees.ToList();
+        //matching for my existing database
+        switch(department.ToLower()) {
+          case "all":
+            return Request.CreateResponse(HttpStatusCode.OK,
+              entities.Employees.ToList());
+          case "1":
+            return Request.CreateResponse(HttpStatusCode.OK,
+              entities.Employees.Where(e => e.Department == 1).ToList());
+          case "2":
+            return Request.CreateResponse(HttpStatusCode.OK,
+              entities.Employees.Where(e => e.Department == 2).ToList());
+          case "3 ":
+            return Request.CreateResponse(HttpStatusCode.OK,
+              entities.Employees.Where(e => e.Department == 3).ToList());
+          default:
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+              "Value for department must be all,1,2,3. Your choice " + department + " is invalid");
+        }
       }
     }
-    [HttpGet]
-    public HttpResponseMessage LoadEmployeeById(int id) {
+    public HttpResponseMessage Get(int id) {
       using(EmployeeDbEntities entities = new EmployeeDbEntities()) {
         var entity = entities.Employees.FirstOrDefault(e => e.Id == id);
         if(entity != null) {
