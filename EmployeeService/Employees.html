@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+  <!--<script src="Scripts/jquery-3.7.0.js"></script>-->
+</head>
+<body>
+  <input id="btn" type="button" value="Get All Employees" />
+  <input id="btnClear" type="button" value="Clear" />
+  <ul id="ulEmployees">
+  </ul>
+
+  <script type="text/javascript">
+    // jquery version
+    /*
+      $(document).ready(function () {
+        var ulEmployees = $('#ulEmployees');
+        $('#btn').click(function () {
+          $.ajax({
+            type: 'GET',
+            url: 'api/employees',
+            dataType: 'json',
+            success: function (data) {
+              ulEmployees.empty();
+              $.each(data, function (index, val) {
+                var fullName = val.Name + ' ' + val.Email;
+                ulEmployees.append('<li>' + fullName + '</li>');
+              });
+            }
+          });
+        });
+        $('#btnClear').click(function () {
+          ulEmployees.empty();
+        });
+      });
+    */
+
+    // vanilla version
+    function loadEmployees() {
+      const xhr = new XMLHttpRequest();
+      xhr.addEventListener('load', () => {
+        const jsonResponse = JSON.parse(xhr.response);
+        let employeesHTML = '';
+        jsonResponse.forEach((employee) => {
+          employeesHTML = employeesHTML +
+            `<li>${employee.Name + ' ' + employee.Email}</li><br/>`;
+        });
+        document.getElementById('ulEmployees').innerHTML = employeesHTML;
+      });
+      xhr.open('GET', 'api/employees/');
+      xhr.send();
+    }
+    document.getElementById('btn').addEventListener('click', () => {
+      loadEmployees();
+    });
+    document.getElementById('btnClear').addEventListener('click', () => {
+      document.getElementById('ulEmployees').innerHTML = '';
+    });
+  </script>
+</body>
+</html>
