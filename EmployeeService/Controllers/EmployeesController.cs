@@ -9,12 +9,14 @@ using EmployeeDataAccess;
 
 namespace EmployeeService.Controllers {
   public class EmployeesController : ApiController {
-    public IEnumerable<Employee> Get() {
+    [HttpGet]
+    public IEnumerable<Employee> LoadAllEmployees() {
       using(EmployeeDbEntities entities = new EmployeeDbEntities()) {
         return entities.Employees.ToList();
       }
     }
-    public HttpResponseMessage Get(int id) {
+    [HttpGet]
+    public HttpResponseMessage LoadEmployeeById(int id) {
       using(EmployeeDbEntities entities = new EmployeeDbEntities()) {
         var entity = entities.Employees.FirstOrDefault(e => e.Id == id);
         if(entity != null) {
