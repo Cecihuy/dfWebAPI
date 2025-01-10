@@ -10,6 +10,7 @@ using EmployeeDataAccess;
 
 namespace EmployeeService.Controllers {
   [EnableCorsAttribute("*", "*", "*")]
+  [RequireHttps] //can also put in each action method
   public class EmployeesController : ApiController {
     public HttpResponseMessage Get(string department="All") {
       using(EmployeeDbEntities entities = new EmployeeDbEntities()) {

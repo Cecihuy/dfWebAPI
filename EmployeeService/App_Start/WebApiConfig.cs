@@ -42,6 +42,8 @@ namespace EmployeeService {
 
       //EnableCorsAttribute cors = new EnableCorsAttribute("https://localhost:44367", "*", "GET");
       config.EnableCors();
+
+      //config.Filters.Add(new RequireHttpsAttribute());
     }
   }
 }
