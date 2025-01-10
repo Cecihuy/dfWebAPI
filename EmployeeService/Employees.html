@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title></title>
-  <script src="Scripts/jquery-3.7.0.js"></script>
+  <!--<script src="Scripts/jquery-3.7.0.js"></script>-->
 </head>
 <body>
   <input id="btn" type="button" value="Get All Employees" />
@@ -13,14 +13,14 @@
 
   <script type="text/javascript">
     // jquery version
-    
+    /*
       $(document).ready(function () {
         var ulEmployees = $('#ulEmployees');
         $('#btn').click(function () {
           $.ajax({
             type: 'GET',
             url: 'api/employees',
-            dataType: 'jsonp',
+            dataType: 'json',
             success: function (data) {
               ulEmployees.empty();
               $.each(data, function (index, val) {
@@ -34,10 +34,10 @@
           ulEmployees.empty();
         });
       });
-    
+    */
 
     // vanilla version
-    /*
+    
       function loadEmployees() {
         const xhr = new XMLHttpRequest();
         xhr.addEventListener('load', () => {
@@ -58,7 +58,7 @@
       document.getElementById('btnClear').addEventListener('click', () => {
         document.getElementById('ulEmployees').innerHTML = '';
       });
-    */
+    
   </script>
 </body>
 </html>

@@ -5,9 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using EmployeeDataAccess;
 
 namespace EmployeeService.Controllers {
+  [EnableCorsAttribute("*", "*", "*")]
   public class EmployeesController : ApiController {
     public HttpResponseMessage Get(string department="All") {
       using(EmployeeDbEntities entities = new EmployeeDbEntities()) {
@@ -42,7 +44,7 @@ namespace EmployeeService.Controllers {
           );
         }
       }
-    }
+    }    
     public HttpResponseMessage Post([FromBody]Employee employee) {
       try {
         using(EmployeeDbEntities entities = new EmployeeDbEntities()) {
@@ -74,6 +76,7 @@ namespace EmployeeService.Controllers {
         return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
       }
     }
+    //[DisableCors]
     public HttpResponseMessage Put([FromBody]int id, [FromUri]Employee employee) {
       try {
         using(EmployeeDbEntities entities = new EmployeeDbEntities()) {
