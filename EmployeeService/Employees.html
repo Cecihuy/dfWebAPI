@@ -6,10 +6,12 @@
   <!--<script src="Scripts/jquery-3.7.0.js"></script>-->
 </head>
 <body>
+  Username <input id="username" type="text" /> Password <input id="password" type="password" /><br />
   <input id="btn" type="button" value="Get All Employees" />
   <input id="btnClear" type="button" value="Clear" />
   <ul id="ulEmployees">
   </ul>
+  <div id="statusMessage" style="color:red"></div>
 
   <script type="text/javascript">
     // jquery version
@@ -17,16 +19,27 @@
       $(document).ready(function () {
         var ulEmployees = $('#ulEmployees');
         $('#btn').click(function () {
+          var username = $('#username').val();
+          var password = $('#password').val();
           $.ajax({
             type: 'GET',
             url: 'api/employees',
             dataType: 'json',
+            headers: {
+              'Authorization': 'Basic ' + btoa(username + ':' + password)
+            },
             success: function (data) {
               ulEmployees.empty();
               $.each(data, function (index, val) {
                 var fullName = val.Name + ' ' + val.Email;
                 ulEmployees.append('<li>' + fullName + '</li>');
               });
+            },
+            complete: function (jqXHR) {
+              if (jqXHR.status == '401') {
+                ulEmployees.empty();
+                ulEmployees.append('<li>' + jqXHR.status + ':' + jqXHR.statusText + '</li>');
+              }
             }
           });
         });
@@ -38,27 +51,44 @@
 
     // vanilla version
     
-      function loadEmployees() {
-        const xhr = new XMLHttpRequest();
-        xhr.addEventListener('load', () => {
+    let employees = document.getElementById('ulEmployees');
+    let statusMessage = document.getElementById('statusMessage');
+    function loadEmployees() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const encoded = btoa(username + ':' + password);
+      const xhr = new XMLHttpRequest();
+      xhr.addEventListener('load', () => {
+        const statusCode = xhr.status;        
+        if (statusCode === 401) {
+          statusMessage.innerHTML = '401 : Unauthorize';
+          employees.innerHTML = '';
+        } else if (statusCode === 200) {
           const jsonResponse = JSON.parse(xhr.response);
           let employeesHTML = '';
           jsonResponse.forEach((employee) => {
             employeesHTML = employeesHTML +
-              `<li>${employee.Name + ' ' + employee.Email}</li><br/>`;
+              `<li>${employee.Name + ' ' + employee.Email}</li>`;
           });
-          document.getElementById('ulEmployees').innerHTML = employeesHTML;
-        });
-        xhr.open('GET', 'api/employees/');
-        xhr.send();
-      }
-      document.getElementById('btn').addEventListener('click', () => {
-        loadEmployees();
+          employees.innerHTML = employeesHTML;
+          statusMessage.innerHTML = '';
+        } else {
+          statusMessage.innerHTML = 'Bad request';
+          employees.innerHTML = '';
+        }
       });
-      document.getElementById('btnClear').addEventListener('click', () => {
-        document.getElementById('ulEmployees').innerHTML = '';
-      });
-    
+      xhr.open('GET', 'api/employees/');
+      xhr.setRequestHeader('Authorization', `Basic ${encoded}`);
+      xhr.send();
+    }
+    document.getElementById('btn').addEventListener('click', () => {
+      loadEmployees();
+    });
+    document.getElementById('btnClear').addEventListener('click', () => {
+      employees.innerHTML = '';
+      statusMessage.innerHTML = '';
+    });
+  
   </script>
 </body>
 </html>
