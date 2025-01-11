@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -10,27 +11,21 @@ using EmployeeDataAccess;
 
 namespace EmployeeService.Controllers {
   [EnableCorsAttribute("*", "*", "*")]
-  [RequireHttps] //can also put in each action method
   public class EmployeesController : ApiController {
+    [BasicAuthenticationAttribute]
     public HttpResponseMessage Get(string department="All") {
+      string username = Thread.CurrentPrincipal.Identity.Name;
       using(EmployeeDbEntities entities = new EmployeeDbEntities()) {
         //matching for my existing database
-        switch(department.ToLower()) {
-          case "all":
-            return Request.CreateResponse(HttpStatusCode.OK,
-              entities.Employees.ToList());
+        switch(username.ToLower()) {
           case "1":
             return Request.CreateResponse(HttpStatusCode.OK,
               entities.Employees.Where(e => e.Department == 1).ToList());
           case "2":
             return Request.CreateResponse(HttpStatusCode.OK,
               entities.Employees.Where(e => e.Department == 2).ToList());
-          case "3 ":
-            return Request.CreateResponse(HttpStatusCode.OK,
-              entities.Employees.Where(e => e.Department == 3).ToList());
           default:
-            return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-              "Value for department must be all,1,2,3. Your choice " + department + " is invalid");
+            return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
       }
     }
