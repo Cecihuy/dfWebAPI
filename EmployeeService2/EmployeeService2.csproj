@@ -260,6 +260,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Data.html" />
     <Content Include="EmployeeDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EmployeeDataModel.edmx</DependentUpon>
@@ -273,6 +274,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="jquery-1.12.4.js" />
+    <Content Include="Login.html" />
     <Content Include="Register.html" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
