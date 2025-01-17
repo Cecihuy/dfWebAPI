@@ -27,9 +27,13 @@ namespace EmployeeService2.Controllers {
     public IEnumerable<Student> Get() {
       return students;
     }
-    [Route("{id}")]
+    [Route("{id:int:range(1,3)}")]
     public Student Get(int id) {
       return students.FirstOrDefault(s => s.Id == id);
+    }
+    [Route("{name:alpha}")]
+    public Student Get(string name) {
+      return students.FirstOrDefault(s => s.Name.ToLower() == name.ToLower());
     }
     [Route("{id}/courses")]
     public IEnumerable<string> GetStudentCourses(int id) {
