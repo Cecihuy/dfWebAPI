@@ -9,6 +9,7 @@
   <div class="col-md-10 col-md-offset-1">
     <div class="well">
       <input id="btnLoadEmployees" type="button" value="Load Employees" class="btn btn-success" />
+      <span id="spanUsername" class="text-muted"></span>
       <input id="btnLogoff" type="button" value="Log off" class="btn btn-success pull-right" />
     </div>
     <div id="divData" class="well hidden">
@@ -54,6 +55,7 @@
   <script src="bootstrap3.js"></script>
   <script type="text/javascript">
     $(document).ready(function () {
+      $('#spanUsername').text('Hello ' + localStorage.getItem('userName'));
       if (localStorage.getItem('accessToken') === null) {
         window.location.href = "Login.html";
       }
