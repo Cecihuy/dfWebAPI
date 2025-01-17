@@ -14,6 +14,14 @@ namespace EmployeeService2.Controllers {
       new Student{Id = 2, Name = "Sam"},
       new Student{Id = 3, Name = "John"}
     };
+    [Route("")]
+    public HttpResponseMessage Post(Student student) {
+      students.Add(student);
+      var response = Request.CreateResponse(HttpStatusCode.Created);
+      //response.Headers.Location = new Uri(Request.RequestUri + student.Id.ToString());
+      response.Headers.Location = new Uri(Url.Link("GetStudentById", new {id=student.Id}));
+      return response;
+    }
     [Route("~/api/teachers")]
     public IEnumerable<Teacher> GetTeachers() {
       List<Teacher> teachers = new List<Teacher>() {
@@ -27,7 +35,8 @@ namespace EmployeeService2.Controllers {
     public IEnumerable<Student> Get() {
       return students;
     }
-    [Route("{id:int:range(1,3)}")]
+    //[Route("{id:int:range(1,3)}")]
+    [Route("{id:int}", Name ="GetStudentById")]
     public Student Get(int id) {
       return students.FirstOrDefault(s => s.Id == id);
     }
