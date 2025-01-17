@@ -57,8 +57,8 @@
             grant_type: 'password'
           },
           success: function (response) {
-            sessionStorage.setItem('accessToken', response.access_token);
-            window.location.href = "Data.html";
+            localStorage.setItem('accessToken', response.access_token);
+            window.location.href = "Data.html";            
           },
           error: function (jqXHR) {
             $('#divErrorText').text(jqXHR.responseText);
