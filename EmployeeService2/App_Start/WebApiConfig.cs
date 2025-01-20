@@ -8,23 +8,28 @@ using Newtonsoft.Json.Serialization;
 
 namespace EmployeeService2
 {
-    public static class WebApiConfig
+  public static class WebApiConfig
+  {
+    public static void Register(HttpConfiguration config)
     {
-        public static void Register(HttpConfiguration config)
-        {
-            // Web API configuration and services
-            // Configure Web API to use only bearer token authentication.
-            config.SuppressDefaultHostAuthentication();
-            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+      // Web API configuration and services
+      // Configure Web API to use only bearer token authentication.
+      config.SuppressDefaultHostAuthentication();
+      config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
-            // Web API routes
-            config.MapHttpAttributeRoutes();
+      // Web API routes
+      config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
-        }
+      //config.Routes.MapHttpRoute(
+      //    name: "Version1",
+      //    routeTemplate: "api/v1/studentsversion/{id}",
+      //    defaults: new { id = RouteParameter.Optional, controller = "StudentsV1" }
+      //);
+      //config.Routes.MapHttpRoute(
+      //    name: "Version2",
+      //    routeTemplate: "api/v2/studentsversion/{id}",
+      //    defaults: new { id = RouteParameter.Optional, controller = "StudentsV2" }
+      //);
     }
+  }
 }
