@@ -26,12 +26,18 @@ namespace EmployeeService2.Controllers.Custom
       //if(versionQueryString["v"] != null) {
       //  versionNumber = versionQueryString["v"];
       //}
-      string customHeader = "give-it-name-you-want";
-      if(request.Headers.Contains(customHeader)) {
-        versionNumber = request.Headers.GetValues(customHeader).FirstOrDefault();
-        if(versionNumber.Contains(",")) {
-          versionNumber = versionNumber.Substring(0, versionNumber.IndexOf(","));
-        }
+      //string customHeader = "give-it-name-you-want";
+      //if(request.Headers.Contains(customHeader)) {
+      //  versionNumber = request.Headers.GetValues(customHeader).FirstOrDefault();
+      //  if(versionNumber.Contains(",")) {
+      //    versionNumber = versionNumber.Substring(0, versionNumber.IndexOf(","));
+      //  }
+      //}
+      var acceptHeader = request.Headers.Accept.Where(
+        a => a.Parameters.Count(p => p.Name == "version") > 0
+      );
+      if(acceptHeader.Any()) {
+        versionNumber = acceptHeader.First().Parameters.First(p => p.Name.ToLower() == "version").Value;
       }
       if(versionNumber == "1") {
         controllerName = controllerName + "v1";
