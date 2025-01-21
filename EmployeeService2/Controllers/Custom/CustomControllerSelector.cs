@@ -19,14 +19,20 @@ namespace EmployeeService2.Controllers.Custom
     }
     public override HttpControllerDescriptor SelectController(HttpRequestMessage request) {
       var controllers = GetControllerMapping();
-      Debug.WriteLine("============================" + controllers);
       var routeData = request.GetRouteData();
       var controllerName = routeData.Values["controller"].ToString();
       string versionNumber = "1";
-      NameValueCollection versionQueryString = HttpUtility.ParseQueryString(request.RequestUri.Query);
-      if(versionQueryString["v"] != null) {
-        versionNumber = versionQueryString["v"];
-      }       
+      //var versionQueryString = HttpUtility.ParseQueryString(request.RequestUri.Query);
+      //if(versionQueryString["v"] != null) {
+      //  versionNumber = versionQueryString["v"];
+      //}
+      string customHeader = "give-it-name-you-want";
+      if(request.Headers.Contains(customHeader)) {
+        versionNumber = request.Headers.GetValues(customHeader).FirstOrDefault();
+        if(versionNumber.Contains(",")) {
+          versionNumber = versionNumber.Substring(0, versionNumber.IndexOf(","));
+        }
+      }
       if(versionNumber == "1") {
         controllerName = controllerName + "v1";
       } else {
