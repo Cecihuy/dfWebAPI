@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -33,11 +34,16 @@ namespace EmployeeService2.Controllers.Custom
       //    versionNumber = versionNumber.Substring(0, versionNumber.IndexOf(","));
       //  }
       //}
+      //var acceptHeader = request.Headers.Accept.Where(
+      //  a => a.Parameters.Count(p => p.Name == "version") > 0
+      //);
+      var regex = @"application\/vnd\.pragimtech\.([a-z]+)\.v(?<version>[0-9]+)\+([a-z]+)";
       var acceptHeader = request.Headers.Accept.Where(
-        a => a.Parameters.Count(p => p.Name == "version") > 0
+        a => Regex.IsMatch(a.MediaType, regex, RegexOptions.IgnoreCase)
       );
       if(acceptHeader.Any()) {
-        versionNumber = acceptHeader.First().Parameters.First(p => p.Name.ToLower() == "version").Value;
+        var match = Regex.Match(acceptHeader.First().MediaType, regex, RegexOptions.IgnoreCase);
+        versionNumber = match.Groups["version"].Value;
       }
       if(versionNumber == "1") {
         controllerName = controllerName + "v1";
