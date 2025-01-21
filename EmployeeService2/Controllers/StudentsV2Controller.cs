@@ -14,11 +14,11 @@ namespace EmployeeService2.Controllers
       new StudentV2(){Id=2, FirstName="Sam2", LastName="S2"},
       new StudentV2(){Id=3, FirstName="John2", LastName="J2"}
     };
-    [Route("api/v2/studentsversion")]
+    //[Route("api/v2/studentsversion")]
     public IEnumerable<StudentV2> Get() {
       return students;
     }
-    [Route("api/v2/studentsversion/{id}")]
+    //[Route("api/v2/studentsversion/{id}")]
     public StudentV2 Get(int id) {
       return students.FirstOrDefault(s => s.Id == id);
     }

@@ -7,14 +7,14 @@ using System.Net.Http;
 using System.Web.Http;
 
 namespace EmployeeService2.Controllers {
-  [RoutePrefix("api/students")]
-  public class StudentsController : ApiController {
+  //[RoutePrefix("api/students")]
+  public class xStuxdentsController : ApiController {
     static List<Student> students = new List<Student>() {
       new Student{Id = 1, Name = "Tome"},
       new Student{Id = 2, Name = "Sam"},
       new Student{Id = 3, Name = "John"}
     };
-    [Route("")]
+    //[Route("")]
     public HttpResponseMessage Post(Student student) {
       students.Add(student);
       var response = Request.CreateResponse(HttpStatusCode.Created);
@@ -22,7 +22,7 @@ namespace EmployeeService2.Controllers {
       response.Headers.Location = new Uri(Url.Link("GetStudentById", new {id=student.Id}));
       return response;
     }
-    [Route("~/api/teachers")]
+    //[Route("~/api/teachers")]
     public IEnumerable<Teacher> GetTeachers() {
       List<Teacher> teachers = new List<Teacher>() {
         new Teacher(){Id = 1, Name = "Rob"},
@@ -31,7 +31,7 @@ namespace EmployeeService2.Controllers {
       };
       return teachers;
     }
-    [Route("")]
+    //[Route("")]
     public IEnumerable<Student> Get() {
       return students;
     }
@@ -40,11 +40,11 @@ namespace EmployeeService2.Controllers {
     public Student Get(int id) {
       return students.FirstOrDefault(s => s.Id == id);
     }
-    [Route("{name:alpha}")]
+    //[Route("{name:alpha}")]
     public Student Get(string name) {
       return students.FirstOrDefault(s => s.Name.ToLower() == name.ToLower());
     }
-    [Route("{id}/courses")]
+    //[Route("{id}/courses")]
     public IEnumerable<string> GetStudentCourses(int id) {
       if(id == 1) {
         return new List<string>() { "C#", "ASP.NET", "SQL SERVER" };

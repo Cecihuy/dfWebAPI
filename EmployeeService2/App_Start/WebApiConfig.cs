@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Dispatcher;
+using EmployeeService2.Controllers.Custom;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 
@@ -20,11 +22,12 @@ namespace EmployeeService2
       // Web API routes
       config.MapHttpAttributeRoutes();
 
-      //config.Routes.MapHttpRoute(
-      //    name: "Version1",
-      //    routeTemplate: "api/v1/studentsversion/{id}",
-      //    defaults: new { id = RouteParameter.Optional, controller = "StudentsV1" }
-      //);
+      config.Routes.MapHttpRoute(
+          name: "DefaultRoute",
+          routeTemplate: "api/{controller}/{id}",
+          defaults: new { id = RouteParameter.Optional}
+      );
+      config.Services.Replace(typeof(IHttpControllerSelector), new CustomControllerSelector(config));
       //config.Routes.MapHttpRoute(
       //    name: "Version2",
       //    routeTemplate: "api/v2/studentsversion/{id}",
