@@ -1,26 +1,32 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
+using System.Xml;
 using WebApplication1.DataAccess;
 
 namespace WebApplication1 {
   public class Program {
     public static void Main(string[] args) {
+      /* ========== variables ========== */
+      JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions() {
+        TypeInfoResolver = new DefaultJsonTypeInfoResolver(),
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        WriteIndented = true
+      };
+      XmlWriterSettings xmlWriterSettings = new XmlWriterSettings() {
+        Indent = true
+      };
       /* ========== services ========== */
       var builder = WebApplication.CreateBuilder(args);
-      builder.Services.AddControllers();
-      //  .AddNewtonsoftJson(options => {
-      //    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-      //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-      //    options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
-      //  });
-      builder.Services.Configure<JsonOptions>(options => {
-        //options.JsonSerializerOptions.PropertyNamingPolicy = null;
-        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;        
-        options.JsonSerializerOptions.WriteIndented = true;
+      builder.Services.AddControllers(options => {
+        options.RespectBrowserAcceptHeader = true;
+        options.OutputFormatters.Clear();        
+        options.OutputFormatters.Add(new XmlSerializerOutputFormatter(xmlWriterSettings));
+        options.OutputFormatters.Add(new SystemTextJsonOutputFormatter(jsonSerializerOptions));
       });
       builder.Services.AddDbContext<AppDbContext>(options => 
         options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection"))
