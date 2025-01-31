@@ -58,5 +58,24 @@ namespace WebApplication1.Controllers {
         return BadRequest(ex);
       }
     }
+    [HttpPut]
+    [Route("api/[controller]/{id}")]
+    public IActionResult Put([FromRoute]int id, [FromBody] Employee employee) {
+      try {
+        Employee entity = appDb.Employees.Find(id);
+        if(entity != null) {
+          entity.FirstName = employee.FirstName;
+          entity.LastName = employee.LastName;
+          entity.Gender = employee.Gender;
+          entity.Salary = employee.Salary;
+          appDb.SaveChanges();
+          return Ok(entity);
+        } else {
+          return NotFound($"Employee with id = {id} not found to update");
+        }
+      }catch(Exception ex) {
+        return BadRequest(ex);
+      }
+    }
   }
 }
