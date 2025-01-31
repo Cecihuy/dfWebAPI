@@ -42,5 +42,21 @@ namespace WebApplication1.Controllers {
         return BadRequest(ex);
       }
     }
+    [HttpDelete]
+    [Route("api/[controller]/{id}")]
+    public IActionResult Delete(int id) {
+      try {
+        Employee employee = appDb.Employees.Find(id);
+        if(employee == null) {
+          return NotFound($"Employee with id = {id} not found to delete");
+        } else {
+          appDb.Remove(employee);
+          appDb.SaveChanges();
+          return Ok(employee);
+        }
+      }catch(Exception ex) {
+        return BadRequest(ex);
+      }
+    }
   }
 }
