@@ -14,12 +14,21 @@ namespace WebApplication1.Controllers {
     }
     [HttpGet]
     [Route("api/[controller]")]
-    public IEnumerable<Employee> Get() {
-      return appDb.Employees.ToList();
+    public IActionResult LoadAllEmployees(string gender="All") {
+      switch(gender.ToLower()) {
+        case "all":
+          return Ok(appDb.Employees.ToList());
+        case "male":
+          return Ok(appDb.Employees.Where(e => e.Gender.ToLower() == "male").ToList());
+        case "female":
+          return Ok(appDb.Employees.Where(e => e.Gender.ToLower() == "female").ToList());
+        default:
+          return BadRequest($"Value for gender must be All, Male, or Female. {gender} is invalid");
+      }
     }
     [HttpGet]
     [Route("api/[controller]/{id}", Name = "getLinkWithId")]
-    public IActionResult GetById(int id) {
+    public IActionResult EmployeeById(int id) {
       Employee employee = appDb.Employees.FirstOrDefault(e => e.Id == id);
       if(employee != null) {
         return Ok(employee);
