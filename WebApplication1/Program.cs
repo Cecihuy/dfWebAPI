@@ -24,7 +24,7 @@ namespace WebApplication1 {
       var builder = WebApplication.CreateBuilder(args);
       builder.Services.AddControllers(options => {
         options.RespectBrowserAcceptHeader = true;
-        options.OutputFormatters.Clear();        
+        options.OutputFormatters.Clear();
         options.OutputFormatters.Add(new XmlSerializerOutputFormatter(xmlWriterSettings));
         options.OutputFormatters.Add(new SystemTextJsonOutputFormatter(jsonSerializerOptions));
       });
@@ -33,6 +33,7 @@ namespace WebApplication1 {
       );      
       /* ========== pipelines ========== */
       var app = builder.Build();
+      app.UseFileServer();
       app.UseAuthorization();
       app.MapControllers();
       app.Run();
