@@ -23,6 +23,7 @@ namespace WebApplication1 {
       /* ========== services ========== */
       var builder = WebApplication.CreateBuilder(args);      
       builder.Services.AddControllers(options => {
+        options.SslPort = 7788;
         options.RespectBrowserAcceptHeader = true;
         options.OutputFormatters.Clear();
         options.OutputFormatters.Add(new XmlSerializerOutputFormatter(xmlWriterSettings));
@@ -31,26 +32,16 @@ namespace WebApplication1 {
       builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection"))
       );
-      builder.Services.AddCors(options => {
-        options.AddPolicy("freedom", pol => {
-          pol.AllowAnyHeader()
-             .AllowAnyMethod()
-             .AllowAnyOrigin()
-             .Build();
-        });
-        options.AddPolicy("custom", pol => {
-          pol.AllowAnyHeader()
-             .WithOrigins("https://localhost:44368")
-             .WithMethods("GET")
-             .Build();
-        });
-      });
+      //builder.Services.AddHttpsRedirection(options => {
+      //  options.HttpsPort = 7788;
+      //  options.RedirectStatusCode = 302;
+      //});
       /* ========== pipelines ========== */
       var app = builder.Build();
       app.UseFileServer();      
       app.UseAuthorization();      
       app.MapControllers();
-      app.UseCors();
+      //app.UseHttpsRedirection();
       app.Run();
     }
   }
