@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace WebApplication1.Controllers {
       this.appDb = appDb;
     }
     [HttpGet]
+    [EnableCors("custom")]
     [Route("api/[controller]")]
     public IActionResult LoadAllEmployees(string gender="All") {
       switch(gender.ToLower()) {
