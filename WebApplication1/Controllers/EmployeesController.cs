@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Threading;
 using WebApplication1.DataAccess;
 using WebApplication1.Model;
 
@@ -12,18 +13,25 @@ namespace WebApplication1.Controllers {
       this.appDb = appDb;
     }
     [HttpGet]
-    [RequireHttps]
+    //[RequireHttps]
     [Route("api/[controller]")]
+    [UserPass]
     public IActionResult LoadAllEmployees(string gender="All") {
-      switch(gender.ToLower()) {
-        case "all":
-          return Ok(appDb.Employees.ToList());
+      string username="";
+      if(Thread.CurrentPrincipal != null) {
+        username = Thread.CurrentPrincipal.Identity.Name;
+      } else {
+        return Unauthorized("wrong authorization value");
+      }
+      switch(username.ToLower()) {
+        //case "all":
+        //  return Ok(appDb.Employees.ToList());
         case "male":
           return Ok(appDb.Employees.Where(e => e.Gender.ToLower() == "male").ToList());
         case "female":
           return Ok(appDb.Employees.Where(e => e.Gender.ToLower() == "female").ToList());
         default:
-          return BadRequest($"Value for gender must be All, Male, or Female. {gender} is invalid");
+          return BadRequest();
       }
     }
     [HttpGet]

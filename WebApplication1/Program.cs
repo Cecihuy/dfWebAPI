@@ -32,10 +32,7 @@ namespace WebApplication1 {
       builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection"))
       );
-      //builder.Services.AddHttpsRedirection(options => {
-      //  options.HttpsPort = 7788;
-      //  options.RedirectStatusCode = 302;
-      //});
+      builder.Services.AddScoped<BasicAuthenticationAttribute>();
       /* ========== pipelines ========== */
       var app = builder.Build();
       app.UseFileServer();      
