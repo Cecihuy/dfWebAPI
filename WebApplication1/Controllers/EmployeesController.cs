@@ -21,7 +21,7 @@ namespace WebApplication1.Controllers {
       if(Thread.CurrentPrincipal != null) {
         username = Thread.CurrentPrincipal.Identity.Name;
       } else {
-        return Unauthorized("wrong authorization value");
+        return Unauthorized();
       }
       switch(username.ToLower()) {
         //case "all":
