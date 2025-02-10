@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,9 +11,14 @@ namespace WebApplication2 {
       /* ========== services ========== */
       var builder = WebApplication.CreateBuilder(args);
       builder.Services.AddControllers();
-      builder.Services.AddSqlServer<AppDbContext>(builder.Configuration.GetConnectionString("sqlServerConn"));      
+      builder.Services.AddSqlServer<AppDbContext>(builder.Configuration.GetConnectionString("sqlServerConn"));
+      builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+        .AddEntityFrameworkStores<AppDbContext>();
       /* ========== pipelines ========== */
       var app = builder.Build();
+      //app.UseStaticFiles();
+      app.UseFileServer();
+      //app.UseAuthentication();
       app.MapControllers();
       app.Run();
     }
