@@ -47,7 +47,7 @@
         $('#divError').hide('fade');
       });
       $('#btnLogin').click(function () {
-        let jsonString;
+        let jsonObj;
         $.ajax({
           url: 'http://localhost:5566/api/token',
           method: 'POST',
@@ -58,13 +58,14 @@
           }),
           dataFilter: function (data, type) {
             const olah = data.substring(0, data.indexOf('}') + 1);
-            const jsonObj = JSON.parse(olah);
-            jsonString = JSON.stringify(jsonObj.accessToken);
-            return jsonString;
+            jsonObj = JSON.parse(olah);
+            jsonObj = JSON.stringify(jsonObj.accessToken);
+            return jsonObj;
           },
           success: function (response) {
+            const jsonString = jsonObj.substring(1, (jsonObj.length) - 1)
             sessionStorage.setItem('accessToken', jsonString);
-            window.location.href = 'Data.html';
+            window.location.href = 'EmployeeData.html';
           },
           error: function (jqXHR) {
             $('#divErrorText').text(jqXHR.responseText);

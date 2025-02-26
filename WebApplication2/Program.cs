@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using WebApplication2.Data;
+using WebApplication2.DataDb;
 
 namespace WebApplication2 {
   public class Program {

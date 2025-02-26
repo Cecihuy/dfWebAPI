@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+</head>
+<body>
+  <h1>masa gak bisa sih?</h1>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+  <link href="bootstrap3.css" rel="stylesheet" />
+</head>
+<body style="padding-top:20px">
+  <div class="col-md-10 col-md-offset-1">
+    <div class="well">
+      <input type="button" id="btnLoadEmployees" class="btn btn-success" value="Load Employees" />
+    </div>
+    <div class="well hidden" id="divData">
+      <table class="table table-bordered" id="tblData">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>Salary</th>
+          </tr>
+        </thead>
+        <tbody id="tblBody"></tbody>
+      </table>
+      <div id="errorModal" class="modal fade" tabindex="-1" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
+              </button>
+              <h4 class="modal-title">Session Expired</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <h2 class="modal-title">Please close this message to login again</h2>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" data-dismiss="modal" class="btn btn-success">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="divError" class="alert alert-danger collapse">
+        <a id="linkClose" class="close" href="#">&times;</a>
+        <div id="divErrorText"></div>
+      </div>
+    </div>
+  </div>
+  <script src="jquery-1.12.4.js"></script>
+  <script src="bootstrap3.js"></script>
+  <!--<script type="text/javascript">
+    $(document).ready(function () {
+      $('#linkClose').click(function () {
+        $('#divError').hide('fade');
+      });
+      $('#btnRegister').click(function () {
+        $.ajax({
+          url: 'http://localhost:5566/api/account/register',
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            email: $('#txtEmail').val(),
+            password: $('#txtPassword').val(),
+            confirmPassword: $('#txtConfirmPassword').val()
+          }),
+          success: function () {
+            $('#successModal').modal('show');
+          },
+          error: function (jqXHR) {
+            $('#divErrorText').text(jqXHR.responseText);
+            $('#divError').show('fade');
+          }
+        });
+      });
+    });
+  </script>-->
+</body>
+</html>
