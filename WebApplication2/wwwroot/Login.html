@@ -64,7 +64,7 @@
           },
           success: function (response) {
             const jsonString = jsonObj.substring(1, (jsonObj.length) - 1)
-            sessionStorage.setItem('accessToken', jsonString);
+            localStorage.setItem('accessToken', jsonString);
             window.location.href = 'EmployeeData.html';
           },
           error: function (jqXHR) {

@@ -9,6 +9,7 @@
   <div class="col-md-10 col-md-offset-1">
     <div class="well">
       <input type="button" id="btnLoadEmployees" class="btn btn-success" value="Load Employees" />
+      <input type="button" id="btnLogoff" class="btn btn-success pull-right" value="Logoff" />
     </div>
     <div class="well hidden" id="divData">
       <table class="table table-bordered" id="tblData">
@@ -55,10 +56,14 @@
   <script src="bootstrap3.js"></script>
   <script type="text/javascript">
     $(document).ready(function () {
-      if (sessionStorage.getItem('accessToken') == null) {
+      if (localStorage.getItem('accessToken') == null) {
         window.location.href = 'Login.html'
       }
       $('#errorModal').on('hidden.bs.modal', function () {
+        window.location.href = 'Login.html';
+      });
+      $('#btnLogoff').click(function () {
+        localStorage.removeItem('accessToken');
         window.location.href = 'Login.html';
       });
       $('#linkClose').click(function () {
@@ -70,7 +75,7 @@
           method: 'GET',
           contentType: 'application/json',
           headers: {
-            'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken').normalize()
+            'Authorization': 'Bearer ' + localStorage.getItem('accessToken').normalize()
           },
           success: function (data) {
             $('#divData').removeClass('hidden');
