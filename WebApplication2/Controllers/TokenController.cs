@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -17,20 +16,25 @@ namespace WebApplication2.Controllers {
     ) {
       this.userManager=userManager;
       this.signInManager=signInManager;
-    }    
+    }
     [HttpPost]
+    //[Authorize(AuthenticationSchemes = "bebas")]
     [Route("api/[controller]")]
     public async Task<IActionResult> Token([FromBody] Token model) {
       IdentityUser? user = await userManager.FindByNameAsync(model.UserName);
       if(user == null || !await userManager.CheckPasswordAsync(user, model.Password)) {
         return Unauthorized();
       }
-      ClaimsIdentity claimsIdentity = new ClaimsIdentity("pass");      
-      ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-      await AuthenticationHttpContextExtensions.SignInAsync(this.HttpContext, claimsPrincipal);
-      return Ok();
+      Claim[] claims = [
+        new Claim(ClaimTypes.Name, "pertamax@m4il.IT"),
+        new Claim(ClaimTypes.Email, "pertamax@m4il.IT")
+      ];
+      ClaimsIdentity ci = new ClaimsIdentity(claims, "Employee");
+      ClaimsPrincipal cp = new ClaimsPrincipal(ci);
+      Task result = Task.Run(async () =>
+      await AuthenticationHttpContextExtensions.SignInAsync(this.HttpContext,cp));
+      return Ok(result);
     }
-
 
 
 

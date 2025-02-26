@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+  <link href="bootstrap3.css" rel="stylesheet" />
+</head>
+<body style="padding-top:20px">
+  <div class="col-md-10 col-md-offset-1">
+    <div class="well">
+      <table class="table table-bordered">
+        <thead>
+          <tr class="success">
+            <th colspan="2">
+              Existing User Login
+              <a class="btn btn-success pull-right" href="Register.html">Register</a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Username</td>
+            <td><input id="txtUsername" type="text" placeholder="Username" /></td>
+          </tr>
+          <tr>
+            <td>Password</td>
+            <td><input id="txtPassword" type="password" placeholder="Password" /></td>
+          </tr>
+          <tr class="success">
+            <td colspan="2">
+              <input id="btnLogin" type="button" value="Login" class="btn btn-success" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="divError" class="alert alert-danger collapse">
+        <a id="linkClose" class="close" href="#">&times;</a>
+        <div id="divErrorText"></div>
+      </div>
+    </div>
+  </div>
+  <script src="jquery-1.12.4.js"></script>
+  <script src="bootstrap3.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#linkClose').click(function () {
+        $('#divError').hide('fade');
+      });
+      $('#btnLogin').click(function () {
+        let jsonString;
+        $.ajax({
+          url: 'http://localhost:5566/api/token',
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            username: $('#txtUsername').val(),
+            password: $('#txtPassword').val()
+          }),
+          dataFilter: function (data, type) {
+            const olah = data.substring(0, data.indexOf('}') + 1);
+            const jsonObj = JSON.parse(olah);
+            jsonString = JSON.stringify(jsonObj.accessToken);
+            return jsonString;
+          },
+          success: function (response) {
+            sessionStorage.setItem('accessToken', jsonString);
+            window.location.href = 'Data.html';
+          },
+          error: function (jqXHR) {
+            $('#divErrorText').text(jqXHR.responseText);
+            $('#divError').show('fade');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
