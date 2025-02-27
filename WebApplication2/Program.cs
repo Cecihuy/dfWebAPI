@@ -24,7 +24,7 @@ namespace WebApplication2 {
         options.DefaultSignInScheme =
         options.DefaultSignOutScheme = BearerTokenDefaults.AuthenticationScheme;
       }).AddBearerToken(options => {
-        //options.BearerTokenExpiration = TimeSpan.FromSeconds(30);
+        options.BearerTokenExpiration = TimeSpan.FromSeconds(30);
       });
       /* ========== pipelines ========== */
       var app = builder.Build();

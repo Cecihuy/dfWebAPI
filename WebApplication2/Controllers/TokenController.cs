@@ -18,8 +18,7 @@ namespace WebApplication2.Controllers {
       this.signInManager=signInManager;
     }
     [HttpPost]
-    //[Authorize(AuthenticationSchemes = "bebas")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")]    
     public async Task<IActionResult> Token([FromBody] Token model) {
       IdentityUser? user = await userManager.FindByNameAsync(model.UserName);
       if(user == null || !await userManager.CheckPasswordAsync(user, model.Password)) {
@@ -32,7 +31,7 @@ namespace WebApplication2.Controllers {
       ClaimsIdentity ci = new ClaimsIdentity(claims, "Employee");
       ClaimsPrincipal cp = new ClaimsPrincipal(ci);
       Task result = Task.Run(async () =>
-      await AuthenticationHttpContextExtensions.SignInAsync(this.HttpContext,cp));
+      await AuthenticationHttpContextExtensions.SignInAsync(this.HttpContext, cp));
       return Ok(result);
     }
 

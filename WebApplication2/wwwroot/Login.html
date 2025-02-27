@@ -48,6 +48,7 @@
       });
       $('#btnLogin').click(function () {
         let jsonObj;
+        const userName = $('#txtUsername').val();
         $.ajax({
           url: 'http://localhost:5566/api/token',
           method: 'POST',
@@ -65,10 +66,11 @@
           success: function (response) {
             const jsonString = jsonObj.substring(1, (jsonObj.length) - 1)
             localStorage.setItem('accessToken', jsonString);
+            localStorage.setItem('userName', userName);
             window.location.href = 'EmployeeData.html';
           },
           error: function (jqXHR) {
-            $('#divErrorText').text(jqXHR.responseText);
+            $('#divErrorText').text(JSON.stringify(jqXHR));
             $('#divError').show('fade');
           }
         });
