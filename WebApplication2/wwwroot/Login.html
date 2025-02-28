@@ -47,8 +47,8 @@
         $('#divError').hide('fade');
       });
       $('#btnLogin').click(function () {
-        let jsonObj;
-        const userName = $('#txtUsername').val();
+        //let jsonObj;
+        //const userName = $('#txtUsername').val();
         $.ajax({
           url: 'http://localhost:5566/api/token',
           method: 'POST',
@@ -57,16 +57,16 @@
             username: $('#txtUsername').val(),
             password: $('#txtPassword').val()
           }),
-          dataFilter: function (data, type) {
-            const olah = data.substring(0, data.indexOf('}') + 1);
-            jsonObj = JSON.parse(olah);
-            jsonObj = JSON.stringify(jsonObj.accessToken);
-            return jsonObj;
-          },
+          //dataFilter: function (data, type) {
+          //  const olah = data.substring(0, data.indexOf('}') + 1);
+          //  jsonObj = JSON.parse(olah);
+          //  jsonObj = JSON.stringify(jsonObj.accessToken);
+          //  return jsonObj;
+          //},
           success: function (response) {
-            const jsonString = jsonObj.substring(1, (jsonObj.length) - 1)
-            localStorage.setItem('accessToken', jsonString);
-            localStorage.setItem('userName', userName);
+            //const jsonString = jsonObj.substring(1, (jsonObj.length) - 1)
+            localStorage.setItem('accessToken', response.token);
+            localStorage.setItem('userName', response.userName);
             window.location.href = 'EmployeeData.html';
           },
           error: function (jqXHR) {

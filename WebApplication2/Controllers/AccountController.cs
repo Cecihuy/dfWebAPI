@@ -21,7 +21,7 @@ namespace WebApplication2.Controllers {
     public async Task<IActionResult> Register(Register model) {
       if(ModelState.IsValid) {
         IdentityUser user = new IdentityUser { UserName = model.Email, Email = model.Email };
-        var identityResult = await userManager.CreateAsync(user, model.Password);
+        IdentityResult identityResult = await userManager.CreateAsync(user, model.Password);
         if(identityResult.Succeeded) {
           await signInManager.SignInAsync(user, false);
         }

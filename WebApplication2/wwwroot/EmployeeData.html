@@ -67,6 +67,7 @@
       }
       $('#errorModal').on('hidden.bs.modal', function () {
         localStorage.removeItem('userName');
+        localStorage.removeItem('accessToken');
         window.location.href = 'Login.html';
       });
       $('#btnLogoff').click(function () {
